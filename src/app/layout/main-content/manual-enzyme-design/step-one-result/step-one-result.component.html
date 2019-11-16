@@ -1,0 +1,26 @@
+<div class="container">
+<div class="card-div">
+  <nz-card [nzBordered]="true" nzTitle="Renumber Protein File" [nzExtra]="renumProtein">
+    <div class="card">
+      {{reNumProteinFileText}}
+    </div>
+  </nz-card>
+  <nz-card [nzBordered]="true" nzTitle="Params File" [nzExtra]="paramsFile">
+    <div class="card">{{ligandParamsFileText}}</div>
+  </nz-card>
+  <nz-card [nzBordered]="true" nzTitle="Pos File" [nzExtra]="posFile">
+    <div class="card">{{inputPosFile}}</div>
+  </nz-card>
+  <ng-template #renumProtein>
+    <a download="renumberProtein.pdb" href="{{paramsFileList?.protein_renumber_file}}">Download</a>
+  </ng-template>
+  <ng-template #paramsFile>
+    <a download="ligandParams.params" href="{{paramsFileList?.ligand_params_file}}">Download</a>
+  </ng-template>
+  <ng-template #posFile>
+    <a download="posFile.pos" href="{{paramsFileList?.inputs_pos_file}}">Download</a>
+  </ng-template>
+</div>
+  <button type="button" nz-button [nzType]="'primary'" (click)="onNextStep()">next Step</button>
+
+</div>

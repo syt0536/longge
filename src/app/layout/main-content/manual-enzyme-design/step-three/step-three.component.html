@@ -1,0 +1,25 @@
+<form nz-form class="form" [formGroup]="stepThreeForm" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="8" nzRequired>Job Name</nz-form-label>
+    <nz-form-control [nzSpan]="7">
+      <input nz-input formControlName="job_name" placeholder="same as the first time">
+      <nz-form-explain *ngIf="stepThreeForm.get('job_name').dirty&&stepThreeForm.get('job_name').hasError('required')">
+        please input job name!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="8">Cst File</nz-form-label>
+    <nz-form-control [nzSpan]="10">
+      <input type="file"
+             accept=".cst"
+             (change)="fileChange($event)">
+      <span>Please submit cst format file!</span>&nbsp;&nbsp;
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="7" [nzOffset]="8">
+      <button nz-button [nzType]="'primary'">Submit</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

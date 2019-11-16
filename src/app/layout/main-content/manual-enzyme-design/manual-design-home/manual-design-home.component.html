@@ -1,0 +1,11 @@
+<div class="step">
+  <nz-steps [nzCurrent]="currentStep">
+    <nz-step nzTitle="Step One" nzDescription="Input Protein, Substrate Information"></nz-step>
+    <nz-step nzTitle="Step Two" nzDescription="Catalytic Limiting Information, CST Information"></nz-step>
+    <nz-step nzTitle="Step Three" nzDescription="Generate Match File"></nz-step>
+    <nz-step nzTitle="Step Four" nzDescription="Design Infomation"></nz-step>
+    <nz-step nzTitle="Step Five" (click)="goStepFive()" nzDescription="Result Analysis"></nz-step>
+  </nz-steps>
+  <router-outlet></router-outlet>
+</div>
+

@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="card-div">
+    <nz-card [nzBordered]="true" nzTitle="Design ligand out File" [nzExtra]="outFile">
+      <div class="card">
+        {{designLigandOutFileText}}
+      </div>
+    </nz-card>
+    <ng-template #outFile>
+      <a download="outFile.out" href="{{paramsFileList?.filtered_designed_ligandname_out}}">Download</a>
+    </ng-template>
+  </div>
+  <button type="button" nz-button [nzType]="'primary'" (click)="gohome()">Done</button>
+</div>

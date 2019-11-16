@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="card-div">
+    <nz-card [nzBordered]="true" nzTitle="Match CST File" [nzExtra]="cstFile">
+      <div class="card">
+        {{matchCstFileText}}
+      </div>
+    </nz-card>
+    <ng-template #cstFile>
+      <a download="posFile.pos" href="{{paramsFileList?.match_cst_file}}">Download</a>
+    </ng-template>
+  </div>
+  <button type="button" nz-button [nzType]="'primary'" (click)="onNextStep()">next Step</button>
+</div>

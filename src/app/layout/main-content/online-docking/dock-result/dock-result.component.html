@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="card-div">
+    <nz-card [nzBordered]="true" nzTitle="Mutation Protein" [nzExtra]="mutProtein">
+      <div>
+        <app-litemol [targetId]="'pdbprotein'"
+                     [elementId]="'docking'"
+                     [url]="onlinedock?.mut_protein"
+                     [width]="'600px'"
+                     [height]="'450px'"
+                     [backgroundColor]="'#fff'"
+        ></app-litemol>
+      </div>
+    </nz-card>
+    <nz-card class="card" [nzBordered]="true" nzTitle="prePov File" [nzExtra]="prePovFile">
+      <div class="card">{{prePovFileText}}</div>
+    </nz-card>
+    <nz-card class="card" [nzBordered]="true" nzTitle="Pos File" [nzExtra]="mutPovFile">
+      <div class="card">{{mutPovFileText}}</div>
+    </nz-card>
+    <ng-template #mutProtein>
+      <a download="mutProtein.pdb" href="{{onlinedock?.mut_protein}}">Download</a>
+    </ng-template>
+    <ng-template #prePovFile>
+      <a download="ligandParams.params" href="{{onlinedock?.prep_pov}}">Download</a>
+    </ng-template>
+    <ng-template #mutPovFile>
+      <a download="posFile.pos" href="{{onlinedock?.mut_pov}}">Download</a>
+    </ng-template>
+  </div>
+  <button type="button" nz-button [nzType]="'primary'" (click)="gohome()">Done</button>
+
+</div>

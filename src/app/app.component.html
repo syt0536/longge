@@ -1,0 +1,33 @@
+<!--<img style="width: 100%" src="http://www.tib.cas.cn/images/zwbt3.png">-->
+<div>
+  <!--<img class="head_img" src="../assets/picture/zwbt3.png">-->
+  <img class="head_img" src="../assets/picture/header-imgae.jpg">
+</div>
+  <mat-toolbar  class="toolbar-color" >
+    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    <span>
+    <!--<h2 class="h3-color">TIB</h2>-->
+      <!--<img src="../assets/picture/bitLogo.jpg" style="width: 55px; height: 55px">-->
+  </span>&nbsp;&nbsp;
+    <button mat-button routerLink="home">Home</button>
+    <button mat-button routerLink="mut-analysis/analysis">MUT Analysis</button>
+    <button mat-button routerLink="manual-design/manual-design">MUT Design</button>
+    <button mat-button routerLink="new-enzyme-design/enzyme-design-process">New Enzyme Design</button>
+    <button mat-button>Help</button>
+    <button mat-button>Contact</button>
+    <span class="toolbar-span"></span>
+    <!--<app-user></app-user>-->
+  </mat-toolbar>
+  <!--global progress -->
+<div class="section-container">
+  <mat-progress-bar
+    *ngIf="loadingStatus"
+    mode="query"
+    color="primary"
+  ></mat-progress-bar>
+<div *ngIf="loadingStatus" class="loading-container">
+  <p class="loading-color">Note: The task is running and takes approximately 3-5 minutes. Please do not exit.</p>
+</div>
+  <router-outlet></router-outlet>
+</div>
+

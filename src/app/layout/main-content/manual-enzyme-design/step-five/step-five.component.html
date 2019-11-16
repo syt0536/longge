@@ -1,0 +1,54 @@
+<form nz-form class="form" [formGroup]="stepFiveForm" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="8" nzRequired>Job Name</nz-form-label>
+    <nz-form-control [nzSpan]="7">
+      <input nz-input formControlName="job_name" placeholder="same as the first time">
+      <nz-form-explain *ngIf="stepFiveForm.get('job_name').dirty&&stepFiveForm.get('job_name').hasError('required')">
+        please input job name!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+
+  <!--<nz-form-item>-->
+    <!--<nz-form-label [nzSpan]="8" nzRequired>Analysis_Params</nz-form-label>-->
+    <!--<nz-form-control [nzSpan]="7">-->
+      <!--<input nz-input formControlName="analysis_params">-->
+      <!--<nz-form-explain *ngIf="stepFiveForm.get('analysis_params').dirty&&stepFiveForm.get('analysis_params').hasError('required')">-->
+        <!--please input analysis params!-->
+      <!--</nz-form-explain>-->
+    <!--</nz-form-control>-->
+  <!--</nz-form-item>-->
+
+<!--Array Form-->
+  <div formArrayName="analysis_params">
+    <nz-form-item>
+      <nz-form-control [nzSpan]="8" [nzOffset]="9">
+        <button nz-button type="button" [nzType]="'primary'" (click)="addParams()">AddParams</button>&nbsp;&nbsp;
+        <button nz-button type="button" [nzType]="'primary'" (click)="removeParams()">RemoveParams</button>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item *ngFor="let params of aysParams.controls; let i = index" [formGroupName]="i">
+      <nz-form-label [nzSpan]="8" nzRequired>Analysis Params {{i + 1}}</nz-form-label>
+      <nz-form-control [nzSpan]="7">
+        <input nz-input formControlName="params" placeholder="all_cst_value < 3.0">
+        <nz-form-explain *ngIf="params.get('params').dirty&&params.get('params').errors">
+          Please input the analysis parameters!
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </div>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="8" nzRequired>Output Params</nz-form-label>
+    <nz-form-control [nzSpan]="7">
+      <input nz-input formControlName="output_params" placeholder="sortmin total_score">
+      <nz-form-explain *ngIf="stepFiveForm.get('output_params').dirty&&stepFiveForm.get('output_params').errors">
+        Please input output params!
+      </nz-form-explain>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzSpan]="7" [nzOffset]="8">
+      <button nz-button [nzType]="'primary'" type="submit">Submit</button>
+    </nz-form-control>
+  </nz-form-item>
+</form>

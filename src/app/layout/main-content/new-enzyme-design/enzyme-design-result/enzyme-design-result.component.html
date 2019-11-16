@@ -1,0 +1,65 @@
+<p>
+  enzyme-design-result works!
+</p>
+<div nz-row nzType="flex" nzJustify="center">
+    <div nz-col [nzSpan]="15" nzAlign="middle">
+        <div nz-col [nzSpan]="15" nzAlign="middle">
+            <form nz-form class="form" [formGroup]="newEnzymeDesignForm2" (ngSubmit)="formSubmit()">
+                <nz-form-item>
+                    <nz-form-label [nzSpan]="6" nzRequired>Job Name</nz-form-label>
+                    <nz-form-control [nzSpan]="8" nzHasFeedback>
+                      <input nz-input formControlName="job_name" placeholder="please input job name">
+                      <nz-form-explain *ngIf="newEnzymeDesignForm2.get('job_name').dirty&&newEnzymeDesignForm2.get('job_name').errors
+                      || newEnzymeDesignForm2.get('job_name').pending">
+                        <ng-container *ngIf="newEnzymeDesignForm2.get('job_name').hasError('required')">
+                          please input job name!
+                        </ng-container>
+                      </nz-form-explain>
+                    </nz-form-control>
+                  </nz-form-item>
+                  <div formArrayName="other_params">
+                      <nz-form-item>
+                        <nz-form-control [nzSpan]="9" [nzOffset]="6">
+                          <button nz-button type="button" [nzType]="'primary'" (click)="addOtherLigand()">AddParams</button>&nbsp;&nbsp;
+                          <button nz-button type="button" [nzType]="'primary'" (click)="removeOtherLigand()">RemoveParams</button>
+                        </nz-form-control>
+                      </nz-form-item>
+                      <nz-form-item>
+                        <nz-form-control [nzSpan]="9" [nzOffset]="6">
+                          <button nz-button [nzType]="'primary'" type="submit">Submit</button>
+                        </nz-form-control>
+                      </nz-form-item>
+                      <nz-form-item *ngFor="let ligand of otherparams.controls; let i = index" [formGroupName]="i">
+                        <nz-form-label [nzSpan]="6" nzRequired>Analysis Params {{i + 1}}</nz-form-label>
+                        <nz-form-control [nzSpan]="8">
+                          <nz-input-group>
+                            <input nz-input style="width: 80px;" formControlName="params1" class="group-input">value
+                            <nz-select style="width: 60px;" [(ngModel)]="selectedValue" nzAllowClear nzPlaceHolder="<">
+                              <nz-option nzValue=">" nzLabel=">"></nz-option>
+                              <nz-option nzValue="<" nzLabel="<"></nz-option>
+                              <nz-option nzValue="=" nzLabel="=" ></nz-option>
+                            </nz-select>1.0
+                          </nz-input-group>
+                          <nz-form-explain *ngIf="ligand.touched&&ligand.invalid">
+                            Please input the complete ligand parameters!
+                          </nz-form-explain>
+                        </nz-form-control>
+                      </nz-form-item>
+                    </div>
+                    <nz-form-item>
+                      <nz-form-label [nzSpan]="6" nzRequired>Outpur Params</nz-form-label>
+                      <nz-form-control [nzSpan]="8" nzHasFeedback>
+                          sortmin
+                        <input nz-input style="width: 130px;" formControlName="outpur" placeholder="total score">
+                        <nz-form-explain *ngIf="newEnzymeDesignForm2.get('outpur').dirty&&newEnzymeDesignForm2.get('outpur').errors
+                        || newEnzymeDesignForm2.get('outpur').pending">
+                          <ng-container *ngIf="newEnzymeDesignForm2.get('outpur').hasError('required')">
+                            please input outpur!
+                          </ng-container>
+                        </nz-form-explain>
+                      </nz-form-control>
+                    </nz-form-item>
+        </form>
+      </div>
+    </div>
+    </div>

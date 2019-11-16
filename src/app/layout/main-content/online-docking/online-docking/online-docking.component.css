@@ -1,0 +1,17 @@
+.group-input {
+  width: 30%;
+  margin: 0 5px
+}
+
+.form {
+  margin: 30px auto;
+}
+
+.search-form {
+  max-width: 300px;
+  margin: 30px auto;
+}
+
+.search-form-button {
+  width: 100%;
+}

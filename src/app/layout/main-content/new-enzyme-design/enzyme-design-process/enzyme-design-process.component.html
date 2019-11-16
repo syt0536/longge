@@ -1,0 +1,199 @@
+<div nz-row nzType="flex" nzJustify="center">
+  <div nz-col [nzSpan]="9" nzAlign="middle">
+    <div style="float: right">
+      <!--jsme 插件-->
+      <app-jsme [elementId]="'structure-search1'"
+                #applet
+                [width]="'350px'"
+                [height]="'320px'"
+                [showDemo]="true"
+                [option]=""
+      >loading JSME widget
+      </app-jsme>
+      <button nz-button class="smile-button" nzType="primary" (click)="getJsmeSmiles()">Get Smile</button>
+      <br/>
+      <textarea rows="4" nz-input class="smile-textarea" [value]="jsmeSmiles" #textarea></textarea>
+      <!--litemol插件-->
+      <app-litemol [targetId]="'protein'"
+                   [elementId]="'enzyme'"
+                   [data]="fileReadResult"
+                   [width]="'350px'"
+                   [height]="'320px'"
+      ></app-litemol> 
+    </div>
+  </div>
+  <!--newEnzymeDesignForm 表单-->
+  <div nz-col [nzSpan]="15" nzAlign="middle">
+    <form nz-form class="form" [formGroup]="newEnzymeDesignForm" (ngSubmit)="formSubmit()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Job Name</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input formControlName="job_name" placeholder="please input job name">
+          <nz-form-explain *ngIf="newEnzymeDesignForm.get('job_name').dirty&&newEnzymeDesignForm.get('job_name').errors
+          || newEnzymeDesignForm.get('job_name').pending">
+            <ng-container *ngIf="newEnzymeDesignForm.get('job_name').hasError('required')">
+              please input job name!
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Ligand</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input formControlName="ligand" placeholder="please input ligand">
+          <nz-form-explain *ngIf="newEnzymeDesignForm.get('ligand').dirty&&newEnzymeDesignForm.get('ligand').errors
+          || newEnzymeDesignForm.get('ligand').pending">
+            <ng-container *ngIf="newEnzymeDesignForm.get('ligand').hasError('required')">
+              please input ligand!
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Smarts</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input formControlName="smarts" placeholder="please input smarts">
+          <nz-form-explain *ngIf="newEnzymeDesignForm.get('smarts').dirty&&newEnzymeDesignForm.get('job_name').errors
+          || newEnzymeDesignForm.get('smarts').pending">
+            <ng-container *ngIf="newEnzymeDesignForm.get('smarts').hasError('required')">
+              please input smarts!
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <!--other ligand 参数-->
+      <div formArrayName="other_ligands">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzRequired>Other Ligands</nz-form-label>
+          <nz-form-control [nzSpan]="8">
+            <span>Other ligands in your complex protein, except ligand in activity center.</span>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="9" [nzOffset]="6">
+            <button nz-button type="button" [nzType]="'primary'" (click)="addOtherLigand()">AddLigand</button>&nbsp;&nbsp;
+            <button nz-button type="button" [nzType]="'primary'" (click)="removeOtherLigand()">RemoveLigand</button>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngFor="let ligand of otherLigands.controls; let i = index" [formGroupName]="i">
+          <nz-form-label [nzSpan]="6" nzRequired>Ligand {{i + 1}}</nz-form-label>
+          <nz-form-control [nzSpan]="8">
+            <nz-input-group>
+              <input nz-input formControlName="params1" class="group-input">
+              <input nz-input formControlName="params2" class="group-input">
+              <input nz-input formControlName="params3" class="group-input">
+            </nz-input-group>
+            <nz-form-explain *ngIf="ligand.touched&&ligand.invalid">
+              Please input the complete ligand parameters!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+      <!--蛋白文件上传-->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Protein</nz-form-label>
+        <nz-form-control [nzSpan]="9">
+          <input type="file"
+                 accept=".pdb"
+                 (change)="proteinFileChange($event)">
+          <span>Please submit pdb format file!</span>&nbsp;&nbsp;
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Res_Chain</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input formControlName="res_chain" placeholder="please input res_chain">
+          <nz-form-explain *ngIf="newEnzymeDesignForm.get('res_chain').dirty&&newEnzymeDesignForm.get('res_chain').errors
+          || newEnzymeDesignForm.get('res_chain').pending">
+            <ng-container *ngIf="newEnzymeDesignForm.get('res_chain').hasError('required')">
+              please input job name!
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div formArrayName="reactive_residue">
+        <nz-form-item *ngFor="let reactive of reactiveResidues.controls; let i = index" [formGroupName]="i">
+          <nz-form-label [nzSpan]="6" nzRequired>Reactive Residue</nz-form-label>
+          <nz-form-control [nzSpan]="8">
+            <nz-input-group>
+              <input nz-input formControlName="residue" class="group-input">
+              <input nz-input formControlName="num" class="group-input">
+            </nz-input-group>
+            <nz-form-explain *ngIf="reactive.touched&&reactive.invalid">
+              Please input the complete reactive residues!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+      <div formArrayName="fix_residues_list">
+          <nz-form-item *ngFor="let fixResidue of fixResiduesList.controls; let i = index" [formGroupName]="i">
+              <nz-form-label [nzSpan]="6" nzRequired>Fix Residue {{i + 1}}</nz-form-label>
+              <nz-form-control [nzSpan]="9">
+                <nz-input-group>
+                  <input nz-input formControlName="fix_residue1" class="group-input">
+                  <input nz-input formControlName="fix_num1" class="group-input">
+                  <input nz-input formControlName="fix_residue2" class="group-input">
+                  <input nz-input formControlName="fix_num2" class="group-input">
+                </nz-input-group>
+                <nz-form-explain *ngIf="fixResidue.touched&&fixResidue.invalid">
+                  Please input the complete fix residue list!
+                </nz-form-explain>
+              </nz-form-control>
+            </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzSpan]="10" [nzOffset]="6">
+            <button nz-button type="button" [nzType]="'primary'" (click)="addFixResiduesList()">AddFixResidue</button>&nbsp;&nbsp;
+            <button nz-button type="button" [nzType]="'primary'" (click)="removeFixResuduesList()">RemoveFixResidue</button>
+          </nz-form-control>
+        </nz-form-item>
+        <!-- <nz-form-item *ngFor="let fixResidue of fixResiduesList.controls; let i = index" [formGroupName]="i">
+          <nz-form-label [nzSpan]="6" nzRequired>Fix Residue {{i + 1}}</nz-form-label>
+          <nz-form-control [nzSpan]="9">
+            <nz-input-group>
+              <input nz-input formControlName="fix_residue1" class="group-input">
+              <input nz-input formControlName="fix_num1" class="group-input">
+              <input nz-input formControlName="fix_residue2" class="group-input">
+              <input nz-input formControlName="fix_num2" class="group-input">
+            </nz-input-group>
+            <nz-form-explain *ngIf="fixResidue.touched&&fixResidue.invalid">
+              Please input the complete fix residue list!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item> -->
+      </div>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>Reaction Type</nz-form-label>
+        <nz-form-control [nzSpan]="8">
+          <nz-select formControlName="reaction_type" #atom>
+            <ng-container *ngFor="let type of reactionTypes">
+              <nz-option nzLabel="{{type}}" nzValue="{{type}}"></nz-option>
+            </ng-container>
+          </nz-select>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label [nzSpan]="6" nzRequired>User Email</nz-form-label>
+        <nz-form-control [nzSpan]="8" nzHasFeedback>
+          <input nz-input type="email" formControlName="user_email">
+          <nz-form-explain
+            *ngIf="newEnzymeDesignForm.get('user_email').dirty&&newEnzymeDesignForm.get('user_email').errors">
+            <ng-container *ngIf="newEnzymeDesignForm.get('user_email').hasError('required')">please input your email
+              address
+            </ng-container>
+            <ng-container *ngIf="newEnzymeDesignForm.get('user_email').hasError('pattern')">invalid email</ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzSpan]="6" [nzOffset]="8">
+          <button nz-button [nzType]="'primary'" type="submit">Submit</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+
+</div>

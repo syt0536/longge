@@ -1,0 +1,11 @@
+.card-div {
+  background-color: #ECECEC;
+  padding: 30px;
+  margin: 40px 0;
+}
+
+.card {
+  min-height: 300px;
+  max-height: 500px;
+  overflow-y: auto;
+}

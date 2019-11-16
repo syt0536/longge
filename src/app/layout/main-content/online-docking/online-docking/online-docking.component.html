@@ -1,0 +1,178 @@
+
+<nz-tabset>
+  <nz-tab nzTitle="MUT Analysis">
+    <div nz-row nzType="flex" nzJustify="center">
+      <div nz-col [nzSpan]="8"  nzAlign="middle">
+        <app-litemol [targetId]="'pdbprotein'"
+                     [elementId]="'docking'"
+                     [data]="fileReadResult"
+                     [width]="'480px'"
+                     [height]="'480px'"
+        ></app-litemol>
+      </div>
+      <div nz-col [nzSpan]="16"  nzAlign="middle">
+        <form nz-form class="form" [formGroup]="dockingForm" (ngSubmit)="onSubmit()">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Job Name</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="job_name" placeholder="please input job name">
+              <nz-form-explain *ngIf="dockingForm.get('job_name').dirty&&dockingForm.get('job_name').hasError('required')">
+                please input job name!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>User Email</nz-form-label>
+            <nz-form-control [nzSpan]="7" nzHasFeedback>
+              <input nz-input type="email" formControlName="user_email">
+              <nz-form-explain *ngIf="dockingForm.get('user_email').dirty&&dockingForm.get('user_email').errors">
+                <ng-container *ngIf="dockingForm.get('user_email').hasError('required')">please input your email address</ng-container>
+                <ng-container *ngIf="dockingForm.get('user_email').hasError('pattern')">invalid email</ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Protein</nz-form-label>
+            <nz-form-control [nzSpan]="10">
+              <input type="file"
+                     accept=".pdb"
+                     (change)="proteinFileChange($event)">
+              <span>Please submit pdb format file!</span>&nbsp;&nbsp;
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Mutation Radius</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="mutation_radius" >
+              <nz-form-explain *ngIf="dockingForm.get('mutation_radius').dirty&&dockingForm.get('mutation_radius').errors">
+                Please input mutation radius!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <!--<nz-form-item>-->
+          <!--<nz-form-label [nzSpan]="8" nzRequired>Mutation_info_list</nz-form-label>-->
+          <!--<nz-form-control [nzSpan]="7">-->
+          <!--<input nz-input formControlName="mutation_info_list" >-->
+          <!--<nz-form-explain *ngIf="dockingForm.get('mutation_info_list').dirty&&dockingForm.get('mutation_info_list').errors">-->
+          <!--Please input res_chain!-->
+          <!--</nz-form-explain>-->
+          <!--</nz-form-control>-->
+          <!--</nz-form-item>-->
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>PH</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="pH" >
+              <nz-form-explain *ngIf="dockingForm.get('pH').dirty&&dockingForm.get('pH').errors">
+                Please input ph!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Pov_Radius</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="pov_radius" >
+              <nz-form-explain *ngIf="dockingForm.get('pov_radius').dirty&&dockingForm.get('pov_radius').errors">
+                Please input pov_radius!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Ligand_Name</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="ligand_name" >
+              <nz-form-explain *ngIf="dockingForm.get('ligand_name').dirty&&dockingForm.get('ligand_name').errors">
+                Please input ligand name!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Ligand_Resseq</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="ligand_resseq" >
+              <nz-form-explain *ngIf="dockingForm.get('ligand_resseq').dirty&&dockingForm.get('ligand_resseq').errors">
+                Please input ligand_resseq!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="8" nzRequired>Chain ID</nz-form-label>
+            <nz-form-control [nzSpan]="7">
+              <input nz-input formControlName="chain_id">
+              <nz-form-explain *ngIf="dockingForm.get('chain_id').dirty&&dockingForm.get('chain_id').errors">
+                please input chain id!
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+
+          <div formArrayName="mutation_info_list">
+            <!--add and remove mutation-->
+            <nz-form-item>
+              <nz-form-label [nzSpan]="8" nzRequired>Mutation_info_list</nz-form-label>
+              <nz-form-control [nzSpan]="8">
+                <button nz-button type="button" [nzType]="'primary'" (click)="addMutation()">addMutation</button>&nbsp;&nbsp;
+                <button nz-button type="button" [nzType]="'primary'" (click)="removeMutation()">removeMutation</button>
+              </nz-form-control>
+            </nz-form-item>
+
+            <!--mutation info  list-->
+            <div nz-row *ngFor="let mutation of mutationInfoList.controls; let i = index" [formGroupName]="i">
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nzRequired>Chain {{i + 1}}</nz-form-label>
+                <nz-form-control [nzSpan]="7">
+                  <input nz-input formControlName="chain">
+                  <nz-form-explain *ngIf="mutation.get('chain').dirty&&mutation.get('chain').errors">
+                    please input mutation chain!
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nzRequired>Position {{i + 1}}</nz-form-label>
+                <nz-form-control [nzSpan]="7">
+                  <input nz-input formControlName="position">
+                  <nz-form-explain *ngIf="mutation.get('position').dirty&&mutation.get('position').errors">
+                    please input mutation position!
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+              <nz-form-item>
+                <nz-form-label [nzSpan]="8" nzRequired>Residue {{i + 1}}</nz-form-label>
+                <nz-form-control [nzSpan]="7">
+                  <input nz-input formControlName="residue">
+                  <nz-form-explain *ngIf="mutation.get('residue').dirty&&mutation.get('residue').errors">
+                    please input mutation residue!
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
+          </div>
+
+          <nz-form-item>
+            <nz-form-control [nzSpan]="7" [nzOffset]="8">
+              <button nz-button [nzType]="'primary'">Submit</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+  </nz-tab>
+  <nz-tab nzTitle="Result">
+    <form nz-form class="search-form" (ngSubmit)="gotoResult()">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input type="text" nz-input [(ngModel)]="searchJobName" name="searchJob" #searchJob='ngModel' placeholder="jobname" required>
+          </nz-input-group>
+          <nz-form-explain *ngIf="searchJob.invalid && (searchJob.dirty || searchJob.touched)">
+            <ng-container *ngIf="searchJob.hasError('required')"></ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <button nz-button class="search-form-button" type=submit [nzType]="'primary'">Search</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-tab>
+</nz-tabset>
+

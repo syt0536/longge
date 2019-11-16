@@ -1,0 +1,29 @@
+.toolbar-color {
+  background-color: #B3E0E1;
+  color: #fff
+}
+
+.h3-color {
+  color: #fff;
+}
+
+.page_header {
+  display: block;
+  position: relative;
+  margin: 0px 0px 50px 0px;
+  padding: 0px 0px 0px 0px;
+  width: 100%;
+  height: 128px;
+  background-color: #ffffff;
+  text-align: left;
+}
+
+.head_img {
+  width: 100%;
+  min-height: 198px;
+  max-height: 210px;
+}
+
+.loading-color{
+  color: red;
+}

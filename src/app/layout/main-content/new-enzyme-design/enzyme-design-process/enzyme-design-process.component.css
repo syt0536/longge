@@ -1,0 +1,20 @@
+.smile-button {
+  margin-left: 15px;
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
+.smile-textarea {
+  width: 350px;
+  margin-left: 15px;
+  margin-top: 10px
+}
+
+.group-input {
+  width: 23%;
+  margin: 0 1%
+}
+
+.form {
+  margin: 30px auto;
+}

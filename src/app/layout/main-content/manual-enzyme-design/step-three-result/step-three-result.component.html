@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="card-div">
+    <nz-card [nzBordered]="true" nzTitle="UM Match PDB Count">
+      <div class="card">
+        NOTE:The third step produces {{paramsFileList?.UM_pdb_count}} files, each of which takes
+        two hours to run in the fourth step. Please receive the
+        email after the fourth step and then proceed to the fifth
+        operation.
+      </div>
+    </nz-card>
+  </div>
+  <button type="button" nz-button [nzType]="'primary'" (click)="onNextStep()">next Step</button>
+</div>

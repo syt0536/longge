@@ -1,0 +1,158 @@
+<div nz-row nzType="flex" nzJustify="center">
+  <div nz-col [nzSpan]="8" nzAlign="middle">
+    <app-litemol [targetId]="'protein'"
+                 [elementId]="'enzyme'"
+                 [url]="reNumProteinUrl"
+                 [width]="'480px'"
+                 [height]="'480px'"
+    ></app-litemol>
+  </div>
+  <div nz-col [nzSpan]="16" nzAlign="middle">
+    <form nz-form class="form" [formGroup]="stepOneForm" (ngSubmit)="onSubmit()">
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Job Name</nz-form-label>
+        <nz-form-control [nzSpan]="7" nzHasFeedback>
+          <input nz-input formControlName="job_name"  placeholder="please input job name">
+          <nz-form-explain *ngIf="stepOneForm.get('job_name').dirty&&stepOneForm.get('job_name').errors
+          || stepOneForm.get('job_name').pending">
+            <ng-container *ngIf="stepOneForm.get('job_name').hasError('required')">
+              please input job name!
+            </ng-container>
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Protein</nz-form-label>
+        <!--<nz-input-group [nzAddOnAfter]="addOnAfterTemplate">-->
+        <nz-form-control [nzSpan]="10">
+          <input type="file"
+                 accept=".pdb"
+                 (change)="proteinFileChange($event)">
+          <span>Please submit pdb format file!</span>&nbsp;&nbsp;
+          <button nz-button [nzType]="'primary'" type="button" (click)="renumber()">Renumber</button>
+
+        </nz-form-control>
+        <!--<ng-template #addOnAfterTemplate>-->
+        <!--</ng-template>-->
+        <!--</nz-input-group>-->
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Ligand</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input type="file"
+                 accept=".mol2"
+                 (change)="ligandFileChange($event)">
+          <span>Please submit mol2 format file!</span>
+        </nz-form-control>
+      </nz-form-item>
+      <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="8" nzRequired>Other_Ligands</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="7">-->
+      <!--<input nz-input formControlName="other_ligands" >-->
+      <!--<nz-form-explain *ngIf="stepOneForm.get('other_ligands').dirty&&stepOneForm.get('other_ligands').errors">-->
+      <!--Please input other ligand!-->
+      <!--</nz-form-explain>-->
+      <!--</nz-form-control>-->
+      <!--</nz-form-item>-->
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Res_Chain</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input nz-input formControlName="res_chain">
+          <nz-form-explain *ngIf="stepOneForm.get('res_chain').dirty&&stepOneForm.get('res_chain').errors">
+            Please input res_chain!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Res_Ligand_Chain</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input nz-input formControlName="res_ligand_chain">
+          <nz-form-explain
+            *ngIf="stepOneForm.get('res_ligand_chain').dirty&&stepOneForm.get('res_ligand_chain').errors">
+            Please input res_ligand_chain!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Res_Ligand_ID</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input nz-input formControlName="res_ligand_ID">
+          <nz-form-explain *ngIf="stepOneForm.get('res_ligand_ID').dirty&&stepOneForm.get('res_ligand_ID').errors">
+            Please input res_ligand_ID!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Res_Ligand_Name</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input nz-input formControlName="res_ligand_name">
+          <nz-form-explain *ngIf="stepOneForm.get('res_ligand_name').dirty&&stepOneForm.get('res_ligand_name').errors">
+            Please input res_ligand_name!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSpan]="8" nzRequired>Design_Ligand_name</nz-form-label>
+        <nz-form-control [nzSpan]="7">
+          <input nz-input formControlName="design_ligand_name">
+          <nz-form-explain
+            *ngIf="stepOneForm.get('design_ligand_name').dirty&&stepOneForm.get('design_ligand_name').errors">
+            Please input design_ligand_name!
+          </nz-form-explain>
+        </nz-form-control>
+      </nz-form-item>
+
+      <!--<nz-form-item>-->
+      <!--<nz-form-label [nzSpan]="8">Test</nz-form-label>-->
+      <!--<nz-form-control [nzSpan]="9">-->
+      <!--<nz-input-group>-->
+      <!--<input nz-input  formControlName="arg1_ligand1" class="group-input">-->
+
+      <!--<input nz-input formControlName="arg1_ligand1" class="group-input">-->
+      <!--<input nz-input class="group-input">-->
+      <!--&lt;!&ndash;<input nz-input>&ndash;&gt;-->
+      <!--</nz-input-group>-->
+      <!--<nz-form-explain *ngIf="stepOneForm.get('arg1_ligand1').dirty&&stepOneForm.get('arg1_ligand1').errors">-->
+      <!--Please input design_ligand_name!-->
+      <!--</nz-form-explain>-->
+      <!--<span *ngIf="!stepOneForm.get('arg1_ligand1').dirty || !stepOneForm.get('arg1_ligand1').errors">请输入</span>-->
+      <!--</nz-form-control>-->
+      <!--</nz-form-item>-->
+      <div formArrayName="other_ligands">
+        <nz-form-item>
+          <nz-form-label [nzSpan]="7" nzRequired>Other Ligands</nz-form-label>
+          <nz-form-control [nzSpan]="8">
+            <span>Other ligands in your complex protein, except ligand in activity center.</span>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item >
+          <nz-form-control  [nzSpan]="8" [nzOffset]="7">
+            <button nz-button type="button" [nzType]="'primary'" (click)="addLigand()">AddLigand</button>&nbsp;&nbsp;
+            <button nz-button type="button" [nzType]="'primary'" (click)="removeLigand()">RemoveLigand</button>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngFor="let ligand of otherLigands.controls; let i = index" [formGroupName]="i">
+          <nz-form-label [nzSpan]="7" nzRequired>Ligand {{i + 1}}</nz-form-label>
+          <nz-form-control [nzSpan]="9">
+            <nz-input-group>
+              <input nz-input formControlName="params1" class="group-input" placeholder="chain name">
+              <input nz-input formControlName="params2" class="group-input" placeholder="residue sequence id">
+              <input nz-input formControlName="params3" class="group-input" placeholder="residue name">
+            </nz-input-group>
+            <nz-form-explain *ngIf="ligand.touched&&ligand.invalid">
+              Please input the complete ligand parameters!
+            </nz-form-explain>
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+
+
+      <nz-form-item>
+        <nz-form-control [nzSpan]="7" [nzOffset]="8">
+          <button nz-button [nzType]="'primary'" type="submit">Submit</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
+
